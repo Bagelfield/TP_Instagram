@@ -1,0 +1,49 @@
+CREATE DATABASE Instagram;
+USE Instagram;
+
+CREATE TABLE Users(
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL,
+    prenom VARCHAR(50) NOT NULL,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    avatar VARCHAR(100),
+    bio VARCHAR(400),
+    UNIQUE(username)
+);
+
+CREATE TABLE Post(
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    url VARCHAR(200) NOT NULL,
+    user_id INT NOT NULL,
+    nb_like INT DEFAULT 0,
+    FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE RESTRICT
+);
+
+CREATE TABLE LikePost(
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    post_id INT NOT NULL,
+    user_id INT NOT NULL,
+    UNIQUE(post_id,user_id),
+    FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE CASCADE,
+    FOREIGN KEY(post_id) REFERENCES Post(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Comment(
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    post_id INT NOT NULL,
+    user_id INT NOT NULL,
+    msg VARCHAR(400),
+    nb_like INT DEFAULT 0,
+    FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE CASCADE,
+    FOREIGN KEY(post_id) REFERENCES Post(id) ON DELETE CASCADE
+);
+
+CREATE TABLE LikeComment(
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    comment_id INT NOT NULL,
+    user_id INT NOT NULL,
+    UNIQUE(comment_id,user_id),
+    FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE CASCADE,
+    FOREIGN KEY(comment_id) REFERENCES Comment(id) ON DELETE CASCADE
+);
