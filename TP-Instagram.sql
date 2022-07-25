@@ -16,7 +16,6 @@ CREATE TABLE Post(
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
     url VARCHAR(200) NOT NULL,
     user_id INT NOT NULL,
-    nb_like INT DEFAULT 0,
     FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE RESTRICT
 );
 
@@ -34,7 +33,6 @@ CREATE TABLE Comment(
     post_id INT NOT NULL,
     user_id INT NOT NULL,
     msg VARCHAR(400),
-    nb_like INT DEFAULT 0,
     FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE CASCADE,
     FOREIGN KEY(post_id) REFERENCES Post(id) ON DELETE CASCADE
 );
